@@ -56,7 +56,23 @@ public class OrderSimpleApiController {
                 .collect(Collectors.toList());
 
         //최악의 경우 1+N+N번 쿼리가 실행된다.
-        //지연로딩은 영속성 컨텍스트에서 먼저 조회하므로, 이미 조회된 경우 쿼리를 생략한다.
+        //지연로딩은 영속성 컨텍스트에서 먼저 조회하므로, 이미 조회된 경우 쿼리를 생략한다.(ex. 이미 조회된 member인 경우)
+
+        return result;
+    }
+
+    /**
+     * V3. 엔티티를 조회해서 DTO로 변환(fetch join 사용O)
+     * - fetch join으로 쿼리 1번 호출
+     */
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<SimpleOrderDto> result = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(Collectors.toList());
+
+        //페치 조인으로 order->member, order->delivery가 이미 조회된 상태이므로 지연로딩X
 
         return result;
     }
