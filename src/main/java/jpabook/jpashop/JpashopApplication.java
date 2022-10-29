@@ -15,7 +15,7 @@ public class JpashopApplication {
     /**
      * Hibernate5Module
      * - 프록시 객체를 JSON으로 읽을 수 있도록 도와주는 역할
-     * - 기본적으로 초기화 된 프록시 객체만 노출, 초기화 되지 않은 프록시 객체는 노출 안함
+     * - 기본전략: 초기화 되지 않은 프록시 객체는 노출 안함(null), 초기화 된 프록시 객체만 노출
      */
     @Bean
     Hibernate5Module hibernate5Module() {
