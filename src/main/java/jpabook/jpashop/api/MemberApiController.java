@@ -29,6 +29,7 @@ public class MemberApiController {
 
     /**
      * 응답 값으로 엔티티가 아닌 별도의 DTO를 반환한다.
+     * 컬렉션을 직접 반환하면 향후 API 스펙을 변경하기 어렵다.(별도의 Result 클래스 생성으로 해결)
      */
     @GetMapping("/api/v2/members")
     public Result membersV2() {
