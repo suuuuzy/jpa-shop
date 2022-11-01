@@ -49,6 +49,21 @@ public class OrderApiController {
         return result;
     }
 
+    /**
+     * V3. 엔티티를 조회해서 DTO로 변환(fetch join 사용O)
+     * - 컬렉션 페치 조인을 사용하면 페이징이 불가능하다. 1:N에서 1을 기준으로 페이징하는 것이 목적이지만, N을 기준으로 row가 생성된다.
+     * - 컬렉션 둘 이상에 페치 조인을 사용하면 데이터가 부정합하게 조회될 수 있으므로, 컬렉션 페치 조인은 1개만 사용해야 한다.
+     */
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
     @Getter
     static class OrderDto {
 
